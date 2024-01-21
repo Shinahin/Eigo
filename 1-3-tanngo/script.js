@@ -1,5 +1,5 @@
 const http = new XMLHttpRequest();
-const url = 'https://script.googleusercontent.com/macros/echo?user_content_key=aL2PHDimKv-ZKE1eWVfGi6U2M3L3pV7nTlvBbkipIop3uNROxu7TYMc13NHORVIgPZHTYW4U5RsiNaIFQEPfAvpDzYXAmmn6m5_BxDlH2jW0nuo2oDemN9CCS2h10ox_1xSncGQajx_ryfhECjZEnDdnxg-ta8cIrLVQ74o-Lv5SUAamuhphEjA0jLz33o1I5LeFhWnztY55qLBd_6bmxrlH0TkzzxT8tGP6QvPzsXkI8FORk_ThrQ&lib=Me2XBtisIDSB6edzLeR841ULjNT7Gy-LT';
+const url = 'http://api.shinahin.com/englishapi';
 let responseJson;
 let eej = ['', '日本語', '現在形', '過去形']
 document.querySelector('label[for="pop1"]').style.display = "none";
