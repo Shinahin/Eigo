@@ -97,6 +97,12 @@ function inputform(num) {
     let val = Number(doc.value);
     num++;
     document.getElementById('span0').textContent = responseJson[num][eej[val]];
+    for (var i = 0; i < 2; i++) {
+        var textForm = document.getElementById("pop" + i);
+        if (textForm) {
+          textForm.value = '';
+        }
+      }
     var newOnclickContent = 'inputform(' + num + ');';
     var submitButton = document.getElementById('sub0');
     submitButton.onclick = new Function(newOnclickContent);
