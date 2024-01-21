@@ -101,3 +101,47 @@ function inputform(num) {
     var submitButton = document.getElementById('sub0');
     submitButton.onclick = new Function(newOnclickContent);
 }
+
+document.addEventListener('keydown', function(event) {
+    // キーが ↑ (ArrowUp) かどうかを確認
+    if (event.key === "ArrowUp") {
+        // テキストボックスを選択する処理を追加
+
+        // 例: テキストボックスのIDが 'textBox' の場合
+        var textBox = document.getElementById('pop0');
+        
+        // テキストボックスを選択する
+        if (textBox) {
+            textBox.select();
+        }
+
+        // イベントの伝播を停止して通常の ↑ キーの動作を無効化
+        event.preventDefault();
+    } else if (event.key === "ArrowDown") {
+        // テキストボックスを選択する処理を追加
+
+        // 例: テキストボックスのIDが 'textBox' の場合
+        var textBox = document.getElementById('pop1');
+        
+        // テキストボックスを選択する
+        if (textBox) {
+            textBox.select();
+        }
+
+        // イベントの伝播を停止して通常の ↑ キーの動作を無効化
+        event.preventDefault();
+    } else if (event.key === "Enter") {
+        // テキストボックスを選択する処理を追加
+
+        // 例: テキストボックスのIDが 'textBox' の場合
+        var button = document.getElementById('sub0');
+        
+        // テキストボックスを選択する
+        if (button) {
+            button.click();
+        }
+
+        // イベントの伝播を停止して通常の ↑ キーの動作を無効化
+        event.preventDefault();
+    } 
+});
