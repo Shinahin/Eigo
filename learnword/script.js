@@ -1,5 +1,5 @@
 const http = new XMLHttpRequest();
-const url = 'http://api.shinahin.com/englishapi';
+const url = 'http://localhost/api.php?type=English&ver=1';
 let responseJson;
 let eej = ['', '日本語', '現在形', '過去形']
 document.querySelector('label[for="pop1"]').style.display = "none";
