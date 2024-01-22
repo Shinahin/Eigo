@@ -1,14 +1,12 @@
 html {
-    font-family: 'Noto Sans JP', sans-serif;
+  font-family: "Noto Sans JP", sans-serif;
 }
 
 .px100 {
-    width: 250px;
+  width: 250px;
 }
 
 .mini {
-    width: 0.01px;
-    height: 0.01px;
-    font-size: 0.01px;
-    display: none;
+  font-size: 10px;
+  white-space: nowrap;
 }

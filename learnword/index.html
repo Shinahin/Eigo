@@ -1,77 +1,209 @@
 <!DOCTYPE html>
 <html lang="ja">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
     <!-- Google Font -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
     <title>Document</title>
-</head>
+  </head>
 
-<body>
+  <body>
     <h1>英単語を学習する</h1>
     <p>表示する物</p>
-    <select class="form-select px100" id="select0" aria-label="Default select example">
-        <option selected value="1">日本語</option>
-        <option value="2">現在形</option>
-        <option value="3">過去形</option>
+    <select
+      class="form-select px100"
+      id="select0"
+      aria-label="Default select example"
+    >
+      <option selected value="1">日本語</option>
+      <option value="2">現在形</option>
+      <option value="3">過去形</option>
     </select>
     <p>答える物</p>
-    <select class="form-select px100" id="select1" aria-label="Default select example">
-        <option selected value="0">提示する内容(必須)</option>
-        <option value="1">日本語</option>
-        <option value="2">現在形</option>
-        <option value="3">過去形</option>
+    <select
+      class="form-select px100"
+      id="select1"
+      aria-label="Default select example"
+    >
+      <option selected value="0">提示する内容(必須)</option>
+      <option value="1">日本語</option>
+      <option value="2">現在形</option>
+      <option value="3">過去形</option>
     </select>
     <p>答える物2(オプション)</p>
-    <select class="form-select px100" id="select2" aria-label="Default select example">
-        <option selected value="0">提示する内容(オプション)</option>
-        <option value="1">日本語</option>
-        <option value="2">現在形</option>
-        <option value="3">過去形</option>
+    <select
+      class="form-select px100"
+      id="select2"
+      aria-label="Default select example"
+    >
+      <option selected value="0">提示する内容(オプション)</option>
+      <option value="1">日本語</option>
+      <option value="2">現在形</option>
+      <option value="3">過去形</option>
     </select>
-    <label>タイマー機能を有効化する(機能を実装中なため、動作に変化はありません。)</label>
+    <label
+      >タイマー機能を有効化する(機能を実装中なため、動作に変化はありません。)</label
+    >
     <div class="form-check">
-        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
-        <label class="form-check-label" for="flexRadioDefault1">
-          有効化
-        </label>
-      </div>
-      <div class="form-check">
-        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
-        <label class="form-check-label" for="flexRadioDefault2">
-          無効化
-        </label>
-      </div>
-    <button type="button" class="btn btn-primary" onclick="submit()">学習を開始する</button>
-    <button type="button" class="mini" data-bs-toggle="modal" data-bs-target="#learn">.</button>
-    <div class="modal fade" id="learn" tabindex="-1" aria-labelledby="LearnLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">英単語の学習</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <span id="span0"></span><br>
-                    <label for="pop0"></label><br>
-                    <input type="text" name="0" id="pop0" autocomplete="off"><br>
-                    <label for="pop1"></label>
-                    <input type="text" name="1" id="pop1" autocomplete="off"><br>
-                    <button type="button" class="btn btn-primary" id="sub0" onclick="inputform(0)">答えを送信する</button>
-                </div>
-            </div>
+      <input
+        class="form-check-input enable"
+        type="radio"
+        name="flexRadioDefault"
+        id="flexRadioDefault1"
+      />
+      <label class="form-check-label" for="flexRadioDefault1"> 有効化 </label>
+    </div>
+    <div class="form-check">
+      <input
+        class="form-check-input invalidate"
+        type="radio"
+        name="flexRadioDefault"
+        id="flexRadioDefault2"
+        checked
+      />
+      <label class="form-check-label" for="flexRadioDefault2"> 無効化 </label>
+    </div>
+
+    <button type="button" class="btn btn-primary" onclick="submit()">
+      学習を開始する
+    </button>
+    <button
+      type="button"
+      class="mini"
+      style="display: none"
+      data-bs-toggle="modal"
+      data-bs-target="#learn"
+    ></button>
+    <div
+      class="modal fade"
+      id="learn"
+      tabindex="-1"
+      aria-labelledby="LearnLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">
+              英単語の学習
+            </h1>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <span id="span0"></span><br />
+            <label for="pop0"></label><br />
+            <input
+              type="text"
+              name="0"
+              class="form-control"
+              id="pop0"
+              autocomplete="off"
+            /><br />
+            <label for="pop1"></label>
+            <input
+              type="text"
+              name="1"
+              class="form-control"
+              id="pop1"
+              autocomplete="off"
+            /><br />
+            <button
+              type="button"
+              class="btn btn-primary"
+              id="submit0"
+              onclick="inputform(0)"
+            >
+              答えを送信する
+            </button>
+            <span class="mini" id="remnantword">0/100単語</span
+            >&nbsp;&nbsp;<span class="mini" id="timer">0s</span>
+          </div>
         </div>
+      </div>
+    </div>
+    <button
+      type="button"
+      class="mini"
+      style="display: none"
+      data-bs-toggle="modal"
+      data-bs-target="#learn2"
+    ></button>
+    <div
+      class="modal fade"
+      id="learn"
+      tabindex="-1"
+      aria-labelledby="Learn2Label"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">
+              英単語の学習
+            </h1>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <span id="span0"></span><br />
+            <label for="pop0"></label><br />
+            <input
+              type="text"
+              name="0"
+              class="form-control"
+              id="pop0"
+              autocomplete="off"
+            /><br />
+            <label for="pop1"></label>
+            <input
+              type="text"
+              name="1"
+              class="form-control"
+              id="pop1"
+              autocomplete="off"
+            /><br />
+            <button
+              type="button"
+              class="btn btn-primary"
+              id="sub1"
+              onclick="inputform(0)"
+            >
+              答えを送信する
+            </button>
+            <span class="mini">0/100単語</span>
+          </div>
+        </div>
+      </div>
     </div>
     <!-- JavaScript -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+      crossorigin="anonymous"
+    ></script>
     <script src="script.js"></script>
-</body>
-
+  </body>
 </html>

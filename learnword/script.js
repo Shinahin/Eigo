@@ -3,8 +3,10 @@ try {
   const url = "http://api.shinahin.com/api.php?type=English&ver=1";
   let responseJson;
   let eej = ["", "日本語", "現在形", "過去形"];
+  let clickCount = 0;
   document.querySelector('label[for="pop1"]').style.display = "none";
   document.getElementById("pop1").style.display = "none";
+  document.querySelector(".invalidate").style.display = "block";
   http.open("GET", url);
   http.send();
 
@@ -22,11 +24,18 @@ try {
         //     }
         //   }
       } else {
-        alert('エラーが発生しました。原因は「', http.status, '」');
+        alert("エラーが発生しました。原因は「", http.status, "」");
       }
     }
   };
-
+  function starttime() {
+    let start = new Date();
+    let time = start.getTime();
+    second1 = setInterval(function () {
+      nowtime(time);
+    }, 1000);
+  }
+  function nowtime(time) {}
   function submit() {
     let one;
     let truenum = 0;
@@ -54,9 +63,10 @@ try {
       }
     }
     if (truenum === 2) {
-      var newOnclickContent = "inputform(0);";
-      var submitButton = document.getElementById("sub0");
-      submitButton.onclick = new Function(newOnclickContent);
+      clickCount = 0;
+      //   let newOnclickContent = "inputform(0);";
+      //   let submitButton = document.getElementById("sub0");
+      //   submitButton.onclick = new Function(newOnclickContent);
       let doc = document.getElementById("select0");
       let val = Number(doc.value);
       document.getElementById("span0").textContent = responseJson[0][eej[val]];
@@ -70,12 +80,21 @@ try {
         document.getElementById("pop1").style.display = "block";
         document.querySelector('label[for="pop1"]').textContent = eej[val3];
       }
+      let checkbox = document.querySelector(".enable");
+      console.log(checkbox.checked);
+      if (checkbox.checked) {
+        document.querySelector(".invalidate").style.display = "none";
+      }
       const button = document.querySelector(".mini");
       button.click();
     }
   }
 
-  function inputform(num) {
+  function inputform() {
+    if (clickCount >= 100) {
+      alert("終わりました");
+      return;
+    }
     for (let i = 1; i <= 2; i++) {
       let doc = document.getElementById(`select${i}`);
       let val = Number(doc.value);
@@ -86,68 +105,50 @@ try {
         val2 = doc2.value;
         let index = i - 1;
 
-        if (val2 == responseJson[num][eej[val]]) {
+        if (val2 == responseJson[clickCount][eej[val]]) {
           alert("正解");
         } else {
-          alert(`不正解。正解は${responseJson[num][eej[val]]}`);
+          alert(`不正解。正解は${responseJson[clickCount][eej[val]]}`);
         }
       }
     }
     let doc = document.getElementById("select0");
     let val = Number(doc.value);
-    num++;
-    document.getElementById("span0").textContent = responseJson[num][eej[val]];
-    for (var i = 0; i < 2; i++) {
-      var textForm = document.getElementById("pop" + i);
+    clickCount++;
+    restword = document.getElementById("remnantword");
+    restword.textContent = String(clickCount) + "/100単語";
+    document.getElementById("span0").textContent =
+      responseJson[clickCount][eej[val]];
+    for (let i = 0; i < 2; i++) {
+      let textForm = document.getElementById("pop" + i);
       if (textForm) {
         textForm.value = "";
       }
     }
-    var newOnclickContent = "inputform(" + num + ");";
-    var submitButton = document.getElementById("sub0");
-    submitButton.onclick = new Function(newOnclickContent);
   }
 
   document.addEventListener("keydown", function (event) {
-    // キーが ↑ (ArrowUp) かどうかを確認
+    // キー操作
     if (event.key === "ArrowUp") {
-      // テキストボックスを選択する処理を追加
-
-      // 例: テキストボックスのIDが 'textBox' の場合
-      var textBox = document.getElementById("pop0");
-
-      // テキストボックスを選択する
+      // ↑の場合
+      let textBox = document.getElementById("pop0");
       if (textBox) {
         textBox.select();
       }
-
-      // イベントの伝播を停止して通常の ↑ キーの動作を無効化
       event.preventDefault();
     } else if (event.key === "ArrowDown") {
-      // テキストボックスを選択する処理を追加
-
-      // 例: テキストボックスのIDが 'textBox' の場合
-      var textBox = document.getElementById("pop1");
-
-      // テキストボックスを選択する
+      // ↓の場合
+      let textBox = document.getElementById("pop1");
       if (textBox) {
         textBox.select();
       }
-
-      // イベントの伝播を停止して通常の ↑ キーの動作を無効化
       event.preventDefault();
     } else if (event.key === "Enter") {
-      // テキストボックスを選択する処理を追加
-
-      // 例: テキストボックスのIDが 'textBox' の場合
-      var button = document.getElementById("sub0");
-
-      // テキストボックスを選択する
+      // Enterの場合
+      let button = document.getElementById("submit0");
       if (button) {
         button.click();
       }
-
-      // イベントの伝播を停止して通常の ↑ キーの動作を無効化
       event.preventDefault();
     }
   });
