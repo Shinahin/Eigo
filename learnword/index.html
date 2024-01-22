@@ -16,23 +16,39 @@
 
 <body>
     <h1>英単語を学習する</h1>
+    <p>表示する物</p>
     <select class="form-select px100" id="select0" aria-label="Default select example">
         <option selected value="1">日本語</option>
         <option value="2">現在形</option>
         <option value="3">過去形</option>
     </select>
+    <p>答える物</p>
     <select class="form-select px100" id="select1" aria-label="Default select example">
         <option selected value="0">提示する内容(必須)</option>
         <option value="1">日本語</option>
         <option value="2">現在形</option>
         <option value="3">過去形</option>
     </select>
+    <p>答える物2(オプション)</p>
     <select class="form-select px100" id="select2" aria-label="Default select example">
         <option selected value="0">提示する内容(オプション)</option>
         <option value="1">日本語</option>
         <option value="2">現在形</option>
         <option value="3">過去形</option>
     </select>
+    <label>タイマー機能を有効化する(機能を実装中なため、動作に変化はありません。)</label>
+    <div class="form-check">
+        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+        <label class="form-check-label" for="flexRadioDefault1">
+          有効化
+        </label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
+        <label class="form-check-label" for="flexRadioDefault2">
+          無効化
+        </label>
+      </div>
     <button type="button" class="btn btn-primary" onclick="submit()">学習を開始する</button>
     <button type="button" class="mini" data-bs-toggle="modal" data-bs-target="#learn">.</button>
     <div class="modal fade" id="learn" tabindex="-1" aria-labelledby="LearnLabel" aria-hidden="true">
