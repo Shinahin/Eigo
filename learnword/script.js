@@ -1,6 +1,6 @@
 try {
   const http = new XMLHttpRequest();
-  const url = "http://api.shinahin.com/api.php?type=English&ver=1";
+  const url = "https://api.shinahin.com/api.php?type=English&ver=1";
   let responseJson;
   let eej = ["", "日本語", "現在形", "過去形"];
   let clickCount = 0;
