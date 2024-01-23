@@ -134,8 +134,15 @@ function inputform() {
     clickCount++;
     restword = document.getElementById('remnantword');
     restword.textContent = String(clickCount) + '/' + String(lastwordset) + '単語';
-    correctincorrect = document.getElementById('CorrectIncorrect');
-    correctincorrect.textContent = String(Correct) + '/' + String(Incorrect) + '(正解/不正解)';
+    let doc3 = document.getElementById('select2');
+    let val3 = Number(doc3.value);
+    if (doc3.value != 0) {
+      correctincorrect = document.getElementById('CorrectIncorrect');
+      correctincorrect.textContent = String(Correct/2) + '/' + String(Incorrect/2) + '(正解/不正解)';
+    } else {
+      correctincorrect = document.getElementById('CorrectIncorrect');
+      correctincorrect.textContent = String(Correct) + '/' + String(Incorrect) + '(正解/不正解)';
+    }
     document.getElementById('span0').textContent =
       responseJson[clickCount][eej[val]];
     for (let i = 0; i < 2; i++) {
