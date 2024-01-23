@@ -4,6 +4,7 @@ try {
   let responseJson;
   let eej = ["", "日本語", "現在形", "過去形"];
   let clickCount = 0;
+  let lastwordset;
   document.querySelector('label[for="pop1"]').style.display = "none";
   document.getElementById("pop1").style.display = "none";
   document.querySelector(".invalidate").style.display = "block";
@@ -15,14 +16,6 @@ try {
       if (http.status === 200) {
         responseJson = JSON.parse(http.responseText);
         console.log(responseJson);
-
-        //   for (let i = 1; i < 99; i++){
-        //     let tmp = i - 1;
-        //     if (Array.isArray(responseJson) && responseJson.length > tmp) {
-        //       const japaneseWord = responseJson[tmp]['日本語'];
-        //       console.log(japaneseWord);
-        //     }
-        //   }
       } else {
         alert("エラーが発生しました。原因は「"+String(http.status)+"」");
       }
@@ -64,9 +57,6 @@ try {
     }
     if (truenum === 2) {
       clickCount = 0;
-      //   let newOnclickContent = "inputform(0);";
-      //   let submitButton = document.getElementById("sub0");
-      //   submitButton.onclick = new Function(newOnclickContent);
       let doc = document.getElementById("select0");
       let val = Number(doc.value);
       document.getElementById("span0").textContent = responseJson[0][eej[val]];
@@ -85,16 +75,15 @@ try {
       if (checkbox.checked) {
         document.querySelector(".invalidate").style.display = "none";
       }
-      const button = document.querySelector(".mini");
-      button.click();
+      lastwordset = document.getElementById('formnumber').value;
+      restword = document.getElementById("remnantword");
+      restword.textContent = "0/" + String(lastwordset) + "単語";
+      let myModal = new bootstrap.Modal(document.getElementById('learn'));
+      myModal.show();
     }
   }
 
   function inputform() {
-    if (clickCount >= 100) {
-      alert("終わりました");
-      return;
-    }
     for (let i = 1; i <= 2; i++) {
       let doc = document.getElementById(`select${i}`);
       let val = Number(doc.value);
@@ -112,17 +101,22 @@ try {
         }
       }
     }
-    let doc = document.getElementById("select0");
-    let val = Number(doc.value);
-    clickCount++;
-    restword = document.getElementById("remnantword");
-    restword.textContent = String(clickCount) + "/100単語";
-    document.getElementById("span0").textContent =
-      responseJson[clickCount][eej[val]];
-    for (let i = 0; i < 2; i++) {
-      let textForm = document.getElementById("pop" + i);
-      if (textForm) {
-        textForm.value = "";
+    if (clickCount >= lastwordset) {
+      alert("終わりました");
+      return;
+    } else {
+      let doc = document.getElementById("select0");
+      let val = Number(doc.value);
+      clickCount++;
+      restword = document.getElementById("remnantword");
+      restword.textContent = String(clickCount) + "/" + String(lastwordset) + "単語";
+      document.getElementById("span0").textContent =
+        responseJson[clickCount][eej[val]];
+      for (let i = 0; i < 2; i++) {
+        let textForm = document.getElementById("pop" + i);
+        if (textForm) {
+          textForm.value = "";
+        }
       }
     }
   }
