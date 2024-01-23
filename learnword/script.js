@@ -24,7 +24,7 @@ try {
         //     }
         //   }
       } else {
-        alert("エラーが発生しました。原因は「", http.status, "」");
+        alert("エラーが発生しました。原因は「"+String(http.status)+"」");
       }
     }
   };
@@ -153,5 +153,5 @@ try {
     }
   });
 } catch (error) {
-  alert("エラーが発生しました原因は「", error, "」");
+  alert("エラーが発生しました原因は「"+String(error)+"」");
 }
