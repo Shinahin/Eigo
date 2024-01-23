@@ -106,12 +106,15 @@ function submit() {
 }
 
 function inputform() {
+  let doc3 = document.getElementById('select2');
+  let val3 = Number(doc3.value);
+  let testtimer = 0;
   for (let i = 1; i <= 2; i++) {
     let doc = document.getElementById(`select${i}`);
     let val = Number(doc.value);
     let doc2 = document.getElementById(`pop${i - 1}`);
     let val2 = doc2.value;
-
+    let testtimer = 0;
     if (val != 0) {
       val2 = doc2.value;
 
@@ -119,11 +122,12 @@ function inputform() {
         alert('正解');
         Correct++;
       } else {
-        Incorrect++;
         alert(`不正解。正解は${responseJson[clickCount][eej[val]]}`);
+        Incorrect++;
       }
     }
   }
+
   if (clickCount >= lastwordset) {
     alert('終わりました');
     clearInterval(second1);
@@ -134,15 +138,8 @@ function inputform() {
     clickCount++;
     restword = document.getElementById('remnantword');
     restword.textContent = String(clickCount) + '/' + String(lastwordset) + '単語';
-    let doc3 = document.getElementById('select2');
-    let val3 = Number(doc3.value);
-    if (doc3.value != 0) {
-      correctincorrect = document.getElementById('CorrectIncorrect');
-      correctincorrect.textContent = String(Correct/2) + '/' + String(Incorrect/2) + '(正解/不正解)';
-    } else {
-      correctincorrect = document.getElementById('CorrectIncorrect');
-      correctincorrect.textContent = String(Correct) + '/' + String(Incorrect) + '(正解/不正解)';
-    }
+    correctincorrect = document.getElementById('CorrectIncorrect');
+    correctincorrect.textContent = String(Correct) + '/' + String(Incorrect) + '(正解/不正解)';
     document.getElementById('span0').textContent =
       responseJson[clickCount][eej[val]];
     for (let i = 0; i < 2; i++) {
@@ -153,7 +150,6 @@ function inputform() {
     }
   }
 }
-
 document.addEventListener('keydown', function (event) {
   // キー操作
   if (event.key === 'ArrowUp') {
@@ -163,7 +159,7 @@ document.addEventListener('keydown', function (event) {
       textBox.select();
     }
     event.preventDefault();
-  } else if (event.key === 'ArrowDown'|| event.key === 'Enter' && !event.shiftKey) {
+  } else if (event.key === 'ArrowDown' || event.key === 'Enter' && !event.shiftKey) {
     // ↓の場合
     let textBox = document.getElementById('pop1');
     if (textBox) {
