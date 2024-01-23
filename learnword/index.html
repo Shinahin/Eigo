@@ -38,13 +38,13 @@
   </select>
   <label for="formnumber" class="form-label">学習する単語数</label>
   <input class="form-control px100" id="formnumber" type="number" value="25" />
-  <label for="flexRadioDefault1" class="form-label">タイマー機能を有効化する(機能を実装中なため、動作に変化はありません。)</label>
+  <label for="flexRadioDefault1" class="form-label">タイマー機能を有効化する</label>
   <div class="form-check">
     <input class="form-check-input enable" type="radio" name="flexRadioDefault" id="flexRadioDefault1" />
     <label class="form-check-label" for="flexRadioDefault1"> 有効化 </label>
   </div>
   <div class="form-check">
-    <input class="form-check-input invalidate" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked />
+    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked />
     <label class="form-check-label" for="flexRadioDefault2"> 無効化 </label>
   </div>
   <button class="btn btn-primary" onclick="submit()">学習を開始する</button>
@@ -67,7 +67,7 @@
           <button type="button" class="btn btn-primary" id="submit0" onclick="inputform(0)">
             答えを送信する
           </button>
-          <span class="mini" id="remnantword">0/100単語</span>&nbsp;&nbsp;<span class="mini" id="timer">0s</span>
+          <span class="mini" id="remnantword">0/100単語</span>&nbsp;&nbsp;<span class="mini" id="timer">0s</span>&nbsp;&nbsp;<span class="mini" id="CorrectIncorrect">0 / 0 (正解/不正解)</span>
         </div>
       </div>
     </div>
