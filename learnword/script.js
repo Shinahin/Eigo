@@ -2,6 +2,7 @@ const http = new XMLHttpRequest();
 const url = 'https://api.shinahin.com/api.php?type=English&ver=1';
 let responseJson;
 let Correct = 0;
+let Incorrect = 0;
 let eej = ['', '日本語', '現在形', '過去形'];
 let clickCount = 0;
 let lastwordset;
@@ -118,6 +119,7 @@ function inputform() {
         alert('正解');
         Correct++;
       } else {
+        Incorrect++;
         alert(`不正解。正解は${responseJson[clickCount][eej[val]]}`);
       }
     }
@@ -133,7 +135,7 @@ function inputform() {
     restword = document.getElementById('remnantword');
     restword.textContent = String(clickCount) + '/' + String(lastwordset) + '単語';
     correctincorrect = document.getElementById('CorrectIncorrect');
-    correctincorrect.textContent = String(Correct) + '/' + String(clickCount-Correct) + '(正解/不正解)';
+    correctincorrect.textContent = String(Correct) + '/' + String(Incorrect) + '(正解/不正解)';
     document.getElementById('span0').textContent =
       responseJson[clickCount][eej[val]];
     for (let i = 0; i < 2; i++) {
