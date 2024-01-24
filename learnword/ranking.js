@@ -71,16 +71,16 @@ function inputform() {
     clearInterval(second1);
     return;
   } else {
-    for (let i = 2; i <= 3; i++) {
-      let doc2 = document.getElementById(`pop${i - 2}`);
-      let val2 = doc2.value;
-      if (val2 == responseJson[clickCount][eej[i]]) {
-        alert('正解');
-        Correct++;
-      } else {
-        alert(`不正解。正解は${responseJson[clickCount][eej[i]]}`);
-        Incorrect++;
-      }
+    let doc = document.getElementById('pop0');
+    let val = doc.value;
+    let doc2 = document.getElementById('pop1');
+    let val2 = doc2.value;
+    if (val == responseJson[clickCount]["現在形"] || val2 == responseJson[clickCount]["現在形"] ) {
+      alert('正解');
+      Correct++;
+    } else {
+      alert(`不正解。正解は${responseJson[clickCount][eej[i]]}`);
+      Incorrect++;
     }
     clickCount++;
     restword = document.getElementById('remnantword');
@@ -98,7 +98,7 @@ function post() {
   let inputElement = document.getElementById("postname");
   let inputValue = inputElement.value;
   const http = new XMLHttpRequest();
-  const url = 'https://api.shinahin.com/api.php?type=rankingpost&correct='+Correct+'&name='+inputValue+'&time='+timems;
+  const url = 'https://api.shinahin.com/api.php?type=rankingpost&correct=' + Correct + '&name=' + inputValue + '&time=' + timems;
   http.open('GET', url);
   http.send();
 

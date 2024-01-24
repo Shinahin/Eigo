@@ -108,21 +108,35 @@ function submit() {
 function inputform() {
   let doc3 = document.getElementById('select2');
   let val3 = Number(doc3.value);
-  for (let i = 1; i <= 2; i++) {
-    let doc = document.getElementById(`select${i}`);
-    let val = Number(doc.value);
-    let doc2 = document.getElementById(`pop${i - 1}`);
-    let val2 = doc2.value;
-    if (val != 0) {
-      val2 = doc2.value;
-
-      if (val2 == responseJson[clickCount][eej[val]]) {
-        alert('正解');
-        Correct++;
-      } else {
-        alert(`不正解。正解は${responseJson[clickCount][eej[val]]}`);
-        Incorrect++;
+  if (val3 == 0) {
+    for (let i = 1; i <= 2; i++) {
+      let doc = document.getElementById(`select${i}`);
+      let val = Number(doc.value);
+      let doc2 = document.getElementById(`pop${i - 1}`);
+      let val2 = doc2.value;
+      if (val != 0) {
+        val2 = doc2.value;
+  
+        if (val2 == responseJson[clickCount][eej[val]]) {
+          alert('正解');
+          Correct++;
+        } else {
+          alert(`不正解。正解は${responseJson[clickCount][eej[val]]}`);
+          Incorrect++;
+        }
       }
+    }
+  } else {
+    let doc = document.getElementById('pop0');
+    let val = doc.value;
+    let doc2 = document.getElementById('pop1');
+    let val2 = doc2.value;
+    if (val == responseJson[clickCount]["現在形"] || val2 == responseJson[clickCount]["現在形"] ) {
+      alert('正解');
+      Correct++;
+    } else {
+      alert(`不正解。正解は${responseJson[clickCount][eej[i]]}`);
+      Incorrect++;
     }
   }
 
