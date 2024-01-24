@@ -137,6 +137,10 @@ function inputform() {
     } else if (val != responseJson[clickCount]["現在形"]) {
       alert(`不正解。正解は${responseJson[clickCount]["現在形"]}`);
       Incorrect++;
+      if (val != responseJson[clickCount]["過去形"]) {
+        alert(`不正解。正解は${responseJson[clickCount]["過去形"]}`);
+        Incorrect++;
+      }
     } else if (val != responseJson[clickCount]["過去形"]) {
       alert(`不正解。正解は${responseJson[clickCount]["過去形"]}`);
       Incorrect++;
