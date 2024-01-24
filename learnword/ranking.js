@@ -75,7 +75,7 @@ function inputform() {
     let val = doc.value;
     let doc2 = document.getElementById('pop1');
     let val2 = doc2.value;
-    if (val == responseJson[clickCount]["現在形"] && val2 == responseJson[clickCount]["現在形"] ) {
+    if (val == responseJson[clickCount]["現在形"] && val2 == responseJson[clickCount]["過去形"] ) {
       alert('正解');
       Correct++;
     } else if (val != responseJson[clickCount]["現在形"]) {
