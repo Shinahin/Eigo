@@ -20,12 +20,16 @@
                 data.sort((a, b) => a.time - b.time);
 
                 // correctが6割以上のデータを抽出
-                let filteredData = data.filter(item => item.correct>= 55);
+                let filteredData = data.filter(item => item.correct >= 55);
 
                 // 上位の人の名前、タイム、正解した問題を表示
                 filteredData.forEach(item => {
+                    // Calculate minutes and seconds
+                    let minutes = Math.floor(item.time / 60);
+                    let seconds = item.time % 60;
+
                     let listItem = document.createElement('li');
-                    listItem.textContent = `名前: ${item.name}, タイム: ${item.time}秒, 正解した問題数: ${item.correct}`;
+                    listItem.textContent = `名前: ${item.name}, タイム: ${minutes}分 ${seconds}秒, 正解した問題数: ${item.correct}`;
                     leaderboardList.appendChild(listItem);
                 });
             })
