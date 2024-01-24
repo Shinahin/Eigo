@@ -1,5 +1,5 @@
 const http = new XMLHttpRequest();
-const url = 'https://api.shinahin.com/api.php?type=English';
+const url = 'https://api.shinahin.com/api.php?type=English&ver=1';
 let responseJson;
 let Correct = 0;
 let Incorrect = 0;
@@ -108,11 +108,13 @@ function submit() {
 function inputform() {
   let doc3 = document.getElementById('select2');
   let val3 = Number(doc3.value);
+  let testtimer = 0;
   for (let i = 1; i <= 2; i++) {
     let doc = document.getElementById(`select${i}`);
     let val = Number(doc.value);
     let doc2 = document.getElementById(`pop${i - 1}`);
     let val2 = doc2.value;
+    let testtimer = 0;
     if (val != 0) {
       val2 = doc2.value;
 
