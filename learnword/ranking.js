@@ -75,11 +75,14 @@ function inputform() {
     let val = doc.value;
     let doc2 = document.getElementById('pop1');
     let val2 = doc2.value;
-    if (val == responseJson[clickCount]["現在形"] || val2 == responseJson[clickCount]["現在形"] ) {
+    if (val == responseJson[clickCount]["現在形"] && val2 == responseJson[clickCount]["現在形"] ) {
       alert('正解');
       Correct++;
-    } else {
-      alert(`不正解。正解は${responseJson[clickCount][eej[i]]}`);
+    } else if (val != responseJson[clickCount]["現在形"]) {
+      alert(`不正解。正解は${responseJson[clickCount]["現在形"]}`);
+      Incorrect++;
+    } else if (val != responseJson[clickCount]["過去形"]) {
+      alert(`不正解。正解は${responseJson[clickCount]["過去形"]}`);
       Incorrect++;
     }
     clickCount++;
