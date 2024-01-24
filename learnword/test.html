@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaderboard</title>
+</head>
+<body>
+    <h1>Leaderboard</h1>
+    <ul id="leaderboardList"></ul>
+
+    <script>
+        var leaderboardList = document.getElementById('leaderboardList');
+
+        // サイトからデータを取得
+        fetch('https://api.shinahin.com/api?type=ranking')
+            .then(response => response.json())
+            .then(data => {
+                // timeが小さい順でソート
+                data.sort((a, b) => a.time - b.time);
+
+                // correctが6割以上のデータを抽出
+                let filteredData = data.filter(item => item.correct>= 60);
+
+                // 上位の人の名前、タイム、正解した問題を表示
+                filteredData.forEach(item => {
+                    let listItem = document.createElement('li');
+                    listItem.textContent = `Name: ${item.name}, Time: ${item.time}ms, Correct Questions: ${item.correct}`;
+                    leaderboardList.appendChild(listItem);
+                });
+            })
+            .catch(error => console.error('Error fetching data:', error));
+    </script>
+</body>
+</html>
