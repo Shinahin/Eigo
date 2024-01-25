@@ -4,9 +4,7 @@ let responseJson;
 let Correct = 0;
 let Incorrect = 0;
 let timems = 0;
-let eej = ['', '日本語', '現在形', '過去形'];
 let clickCount = 0;
-let lastwordset;
 let numexec = 0;
 http.open('GET', url);
 http.send();
@@ -17,10 +15,20 @@ http.onreadystatechange = (e) => {
       responseJson = JSON.parse(http.responseText);
       console.log(responseJson);
     } else {
-      alert('エラーが発生しました。原因は「' + String(http.status) + '」');
+      alert(`エラーが発生しました。原因は「${String(http.status)}」`);
     }
   }
 };
+
+function getcontent(metatag) {
+  let doc = document.querySelector(metatag);
+  return doc.value;
+}
+
+function editcontent(metatag, data) {
+  document.querySelector(metatag).textContent = data;
+}
+
 function starttime() {
   let start = new Date();
   let time = start.getTime();
@@ -28,6 +36,7 @@ function starttime() {
     nowtime(time);
   }, 1000);
 }
+
 function nowtime(startTime) {
   let currentTime = new Date();
   let currentTimeInMs = currentTime.getTime();
@@ -38,18 +47,16 @@ function nowtime(startTime) {
   let minutes = Math.floor(seconds / 60);
   seconds %= 60; // 追加: 分を除いた余りが秒
 
-  let timerDisplay = document.getElementById('timer');
   if (minutes > 0) {
-    timerDisplay.textContent = String(minutes) + 'm' + String(seconds) + 's';
+    editcontent('#timer', `${String(minutes)}分${String(seconds)}秒`);
   } else {
-    timerDisplay.textContent = String(seconds) + 's';
+    editcontent('#timer', `${String(seconds)}秒`);
   }
 }
+
 function submit() {
   clickCount = 0;
-  document.getElementById('span0').textContent = responseJson[0]["日本語"];
-  document.querySelector('label[for="pop0"]').textContent = "現在形";
-  document.querySelector('label[for="pop1"]').textContent = "過去形";
+  editcontent('#span0', responseJson[0]["日本語"]);
   Correct = 0;
   if (numexec == 0) {
     starttime()
@@ -57,8 +64,7 @@ function submit() {
   } else if (numexec > 0) {
     starttime()
     clearInterval(second1);
-    let timerDisplay = document.getElementById('timer');
-    timerDisplay.textContent = '0s';
+    editcontent('timer', '0s');
   }
   let myModal = new bootstrap.Modal(document.getElementById('learn'));
   myModal.show();
@@ -71,11 +77,9 @@ function inputform() {
     clearInterval(second1);
     return;
   } else {
-    let doc = document.getElementById('pop0');
-    let val = doc.value;
-    let doc2 = document.getElementById('pop1');
-    let val2 = doc2.value;
-    if (val == responseJson[clickCount]["現在形"] && val2 == responseJson[clickCount]["過去形"] ) {
+    let val = getcontent('#pop0');
+    let val2 = getcontent('#pop1');
+    if (val == responseJson[clickCount]["現在形"] && val2 == responseJson[clickCount]["過去形"]) {
       alert('正解');
       Correct++;
     } else if (val != responseJson[clickCount]["現在形"]) {
@@ -83,29 +87,26 @@ function inputform() {
       Incorrect++;
       if (val != responseJson[clickCount]["過去形"]) {
         alert(`不正解。正解は${responseJson[clickCount]["過去形"]}`);
-        Incorrect++;
       }
     } else if (val != responseJson[clickCount]["過去形"]) {
       alert(`不正解。正解は${responseJson[clickCount]["過去形"]}`);
       Incorrect++;
     }
     clickCount++;
-    restword = document.getElementById('remnantword');
-    restword.textContent = String(clickCount) + '/100 単語';
-    correctincorrect = document.getElementById('CorrectIncorrect');
-    correctincorrect.textContent = String(Correct) + '/' + String(Incorrect) + '(正解/不正解)';
-    document.getElementById('span0').textContent = responseJson[clickCount]["日本語"];
+    editcontent("#remnantword", `${String(clickCount)}/100 単語`);
+    editcontent('#CorrectIncorrect', `${String(Correct)} / ${String(Incorrect)} (正解/不正解)`);
+    editcontent('#span0', responseJson[clickCount]["日本語"]);
     for (let i = 0; i < 2; i++) {
       let textForm = document.getElementById('pop' + i);
       textForm.value = '';
     }
   }
 }
+
 function post() {
-  let inputElement = document.getElementById("postname");
-  let inputValue = inputElement.value;
+  let inputValue = getcontent("#postname");;
   const http = new XMLHttpRequest();
-  const url = 'https://api.shinahin.com/api.php?type=rankingpost&correct=' + Correct + '&name=' + inputValue + '&time=' + timems;
+  const url = `https://api.shinahin.com/api.php?type=rankingpost&correct=${Correct}&name=${inputValue}&time=${timems}`;
   http.open('GET', url);
   http.send();
 
@@ -114,37 +115,28 @@ function post() {
       if (http.status === 200) {
         alert('送信が完了しました。')
       } else {
-        alert('エラーが発生しました。原因は「' + String(http.status) + '」');
+        alert(`エラーが発生しました。原因は「${String(http.status)}」`);
       }
     }
   };
-
-  console.log(timems)
-
-  console.log("成功しました。")
 }
+
 document.addEventListener('keydown', function (event) {
   // キー操作
   if (event.key === 'ArrowUp') {
     // ↑の場合
     let textBox = document.getElementById('pop0');
-    if (textBox) {
-      textBox.select();
-    }
+    textBox.select();
     event.preventDefault();
   } else if (event.key === 'ArrowDown' || event.key === 'Enter' && !event.shiftKey) {
     // ↓の場合
     let textBox = document.getElementById('pop1');
-    if (textBox) {
-      textBox.select();
-    }
+    textBox.select();
     event.preventDefault();
   } else if (event.key === 'Enter' && event.shiftKey) {
     // Enterの場合
     let button = document.getElementById('submit0');
-    if (button) {
-      button.click();
-    }
+    button.click();
     event.preventDefault();
   }
 });

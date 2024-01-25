@@ -20,7 +20,7 @@
                 data.sort((a, b) => a.time - b.time);
 
                 // correctが6割以上のデータを抽出
-                let filteredData = data.filter(item => item.correct >= 55);
+                let filteredData = data.filter(item => item.correct >= 50);
 
                 // 上位の人の名前、タイム、正解した問題を表示
                 filteredData.forEach(item => {
