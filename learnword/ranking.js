@@ -2,7 +2,6 @@ const http = new XMLHttpRequest();
 const url = 'https://api.shinahin.com/api.php?type=English';
 let responseJson;
 let Correct = 0;
-let Incorrect = 0;
 let timems = 0;
 let clickCount = 0;
 let numexec = 0;
@@ -45,7 +44,7 @@ function nowtime(startTime) {
   let seconds = Math.floor(elapsedMillis / 1000);
   timems = seconds;
   let minutes = Math.floor(seconds / 60);
-  seconds %= 60; // 追加: 分を除いた余りが秒
+  seconds %= 60;
 
   if (minutes > 0) {
     editcontent('#timer', `${String(minutes)}分${String(seconds)}秒`);
@@ -56,7 +55,7 @@ function nowtime(startTime) {
 
 function submit() {
   clickCount = 0;
-  editcontent('#span0', responseJson[0]["日本語"]);
+  editcontent('#span0', responseJson[0]['日本語']);
   Correct = 0;
   if (numexec == 0) {
     starttime()
@@ -79,23 +78,21 @@ function inputform() {
   } else {
     let val = getcontent('#pop0');
     let val2 = getcontent('#pop1');
-    if (val == responseJson[clickCount]["現在形"] && val2 == responseJson[clickCount]["過去形"]) {
+    if (val == responseJson[clickCount]['現在形'] && val2 == responseJson[clickCount]['過去形']) {
       alert('正解');
       Correct++;
-    } else if (val != responseJson[clickCount]["現在形"]) {
-      alert(`不正解。正解は${responseJson[clickCount]["現在形"]}`);
-      Incorrect++;
-      if (val != responseJson[clickCount]["過去形"]) {
-        alert(`不正解。正解は${responseJson[clickCount]["過去形"]}`);
+    } else if (val != responseJson[clickCount]['現在形']) {
+      alert(`不正解。正解は${responseJson[clickCount]['現在形']}`);
+      if (val != responseJson[clickCount]['過去形']) {
+        alert(`不正解。正解は${responseJson[clickCount]['過去形']}`);
       }
-    } else if (val != responseJson[clickCount]["過去形"]) {
-      alert(`不正解。正解は${responseJson[clickCount]["過去形"]}`);
-      Incorrect++;
+    } else if (val != responseJson[clickCount]['過去形']) {
+      alert(`不正解。正解は${responseJson[clickCount]['過去形']}`);
     }
     clickCount++;
-    editcontent("#remnantword", `${String(clickCount)}/100 単語`);
-    editcontent('#CorrectIncorrect', `${String(Correct)} / ${String(Incorrect)} (正解/不正解)`);
-    editcontent('#span0', responseJson[clickCount]["日本語"]);
+    editcontent('#remnantword', `${String(clickCount)}/100 単語`);
+    editcontent('#CorrectIncorrect', `${String(Correct)} / ${String(clickCount - Correct)} (正解/不正解)`);
+    editcontent('#span0', responseJson[clickCount]['日本語']);
     for (let i = 0; i < 2; i++) {
       let textForm = document.getElementById('pop' + i);
       textForm.value = '';
@@ -104,7 +101,7 @@ function inputform() {
 }
 
 function post() {
-  let inputValue = getcontent("#postname");;
+  let inputValue = getcontent('#postname');;
   const http = new XMLHttpRequest();
   const url = `https://api.shinahin.com/api.php?type=rankingpost&correct=${Correct}&name=${inputValue}&time=${timems}`;
   http.open('GET', url);
