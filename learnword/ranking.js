@@ -28,6 +28,13 @@ function editcontent(metatag, data) {
   document.querySelector(metatag).textContent = data;
 }
 
+function clildcontent(metatag, data, tag) {
+  let textbox_element = document.querySelector(metatag);
+  let new_element = document.createElement(tag);
+  new_element.textContent = data;
+  textbox_element.appendChild(new_element);
+}
+
 function starttime() {
   let start = new Date();
   let time = start.getTime();
@@ -53,10 +60,21 @@ function nowtime(startTime) {
   }
 }
 
+function shuffleArray(jsonList) {
+  // Fisher-Yatesアルゴリズムを使用してリストをシャッフル
+  for (let i = jsonList.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [jsonList[i], jsonList[j]] = [jsonList[j], jsonList[i]];
+  }
+
+  return jsonList;
+}
+
 function submit() {
   clickCount = 0;
-  editcontent('#span0', responseJson[0]['日本語']);
   Correct = 0;
+  responseJson = shuffleArray(responseJson);
+  editcontent('#span0', responseJson[0]['日本語']);
   if (numexec == 0) {
     starttime()
     numexec++;
@@ -65,6 +83,8 @@ function submit() {
     clearInterval(second1);
     editcontent('timer', '0s');
   }
+
+
   let myModal = new bootstrap.Modal(document.getElementById('learn'));
   myModal.show();
 }
@@ -83,11 +103,13 @@ function inputform() {
       Correct++;
     } else if (val != responseJson[clickCount]['現在形']) {
       alert(`不正解。正解は${responseJson[clickCount]['現在形']}`);
-      if (val != responseJson[clickCount]['過去形']) {
+      if (val2 != responseJson[clickCount]['過去形']) {
         alert(`不正解。正解は${responseJson[clickCount]['過去形']}`);
       }
-    } else if (val != responseJson[clickCount]['過去形']) {
+      clildcontent('.miss', `日本語: ${responseJson[clickCount]['日本語']}, 現在形: ${responseJson[clickCount]['現在形']}, 過去形: ${responseJson[clickCount]['過去形']}`, 'p');
+    } else if (val2 != responseJson[clickCount]['過去形']) {
       alert(`不正解。正解は${responseJson[clickCount]['過去形']}`);
+      clildcontent('.miss', `日本語: ${responseJson[clickCount]['日本語']}, 現在形: ${responseJson[clickCount]['現在形']}, 過去形: ${responseJson[clickCount]['過去形']}`, 'p');
     }
     clickCount++;
     editcontent('#remnantword', `${String(clickCount)}/100 単語`);
