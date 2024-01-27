@@ -80,7 +80,7 @@ function submit() {
   let truenum = 0;
   responseJson = shuffleArray(responseJson);
   for (let i = 0; i < 3; i++) {
-    let val = Number(getcontent2(`select${i}`));
+    let val = Number(getcontent2(`#select${i}`));
     if (val != 0 && one != val && i < 2) {
       truenum++;
       one = val;
