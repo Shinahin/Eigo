@@ -21,7 +21,7 @@ http.onreadystatechange = (e) => {
 
 function getcontent(metatag) {
   let doc = document.querySelector(metatag);
-  return doc.value;
+  return doc.value.replace(/[\s　]/g, '');;
 }
 
 function editcontent(metatag, data) {

@@ -22,6 +22,26 @@ http.onreadystatechange = (e) => {
     }
   }
 };
+function getcontent(metatag) {
+  let doc = document.querySelector(metatag);
+  return doc.value.replace(/[\s　]/g, '');;
+}
+function getcontent2(metatag) {
+  let doc = document.querySelector(metatag);
+  return doc.value.replace(/[\s　]/g, '');;
+}
+
+function editcontent(metatag, data) {
+  document.querySelector(metatag).textContent = data;
+}
+
+function clildcontent(metatag, data, tag) {
+  let textbox_element = document.querySelector(metatag);
+  let new_element = document.createElement(tag);
+  new_element.textContent = data;
+  textbox_element.appendChild(new_element);
+}
+
 function starttime() {
   let start = new Date();
   let time = start.getTime();
@@ -29,29 +49,38 @@ function starttime() {
     nowtime(time);
   }, 1000);
 }
+
 function nowtime(startTime) {
   let currentTime = new Date();
   let currentTimeInMs = currentTime.getTime();
   let elapsedMillis = currentTimeInMs - startTime;
 
   let seconds = Math.floor(elapsedMillis / 1000);
+  timems = seconds;
   let minutes = Math.floor(seconds / 60);
-  seconds %= 60; // 追加: 分を除いた余りが秒
-
-  let timerDisplay = document.getElementById('timer');
+  seconds %= 60;
 
   if (minutes > 0) {
-    timerDisplay.textContent = String(minutes) + 'm' + String(seconds) + 's';
+    editcontent('#timer', `${String(minutes)}分${String(seconds)}秒`);
   } else {
-    timerDisplay.textContent = String(seconds) + 's';
+    editcontent('#timer', `${String(seconds)}秒`);
   }
+}
+
+function shuffleArray(jsonList) {
+  for (let i = jsonList.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [jsonList[i], jsonList[j]] = [jsonList[j], jsonList[i]];
+  }
+
+  return jsonList;
 }
 function submit() {
   let one;
   let truenum = 0;
+  responseJson = shuffleArray(responseJson);
   for (let i = 0; i < 3; i++) {
-    let doc = document.getElementById('select' + i);
-    let val = Number(doc.value);
+    let val = Number(getcontent2(`select${i}`));
     if (val != 0 && one != val && i < 2) {
       truenum++;
       one = val;
@@ -63,15 +92,9 @@ function submit() {
       return;
     }
   }
-  for (let i = 0; i < 2; i++) {
-    let doc = document.getElementById('select' + i);
-    let val = Number(doc.value);
-    let doc2 = document.getElementById('select2');
-    let val2 = Number(doc2.value);
-    if (val === val2) {
-      return;
-    }
-  }
+  // if (getcontent('select1') === getcontent('select2')) {
+  //   return;
+  // }
   if (truenum === 2) {
     clickCount = 0;
     let doc = document.getElementById('select0');
@@ -98,7 +121,7 @@ function submit() {
     } else if (numexec > 0) {
       clearInterval(second1);
       let timerDisplay = document.getElementById('timer');
-      timerDisplay.textContent = '0s';
+      timerDisplay.textContent = '0秒';
     }
     let myModal = new bootstrap.Modal(document.getElementById('learn'));
     myModal.show();
@@ -116,12 +139,13 @@ function inputform() {
       let val2 = doc2.value;
       if (val != 0) {
         val2 = doc2.value;
-  
+
         if (val2 == responseJson[clickCount][eej[val]]) {
           alert('正解');
           Correct++;
         } else {
           alert(`不正解。正解は${responseJson[clickCount][eej[val]]}`);
+          clildcontent('.miss', `日本語: ${responseJson[clickCount]['日本語']}, 現在形: ${responseJson[clickCount]['現在形']}, 過去形: ${responseJson[clickCount]['過去形']}`, 'p');
           Incorrect++;
         }
       }
@@ -131,7 +155,7 @@ function inputform() {
     let val = doc.value;
     let doc2 = document.getElementById('pop1');
     let val2 = doc2.value;
-    if (val == responseJson[clickCount]["現在形"] && val2 == responseJson[clickCount]["過去形"] ) {
+    if (val == responseJson[clickCount]["現在形"] && val2 == responseJson[clickCount]["過去形"]) {
       alert('正解');
       Correct++;
     } else if (val != responseJson[clickCount]["現在形"]) {

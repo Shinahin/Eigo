@@ -1,0 +1,21 @@
+<textarea id="text" name="text" placeholder="読み上げたいテキストを入力してください"></textarea>
+<button onclick="readAloud()">読み上げる</button>
+
+<script>
+function readAloud() {
+  // テキストを取得
+  const text = document.getElementById("text").value
+
+  // ブラウザにWeb Speech API Speech Synthesis機能があるか判定
+  if ('speechSynthesis' in window) {
+    // 発言を設定
+    const uttr = new SpeechSynthesisUtterance()
+    uttr.text = text
+    // 発言を再生
+    window.speechSynthesis.speak(uttr)
+
+  } else {
+    alert('大変申し訳ありません。このブラウザは音声合成に対応していません。')
+  }
+}
+</script>
