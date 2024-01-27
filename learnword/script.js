@@ -28,7 +28,7 @@ function getcontent(metatag) {
 }
 function getcontent2(metatag) {
   let doc = document.querySelector(metatag);
-  return doc.value.replace(/[\s　]/g, '');;
+  return doc.value;
 }
 
 function editcontent(metatag, data) {
