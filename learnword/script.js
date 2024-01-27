@@ -169,6 +169,7 @@ function inputform() {
     } else if (val != responseJson[clickCount]["過去形"]) {
       alert(`不正解。正解は${responseJson[clickCount]["過去形"]}`);
       clildcontent('.miss', `日本語: ${responseJson[clickCount]['日本語']}, 現在形: ${responseJson[clickCount]['現在形']}, 過去形: ${responseJson[clickCount]['過去形']}`, 'p');
+      Incorrect++;
     }
   }
 
