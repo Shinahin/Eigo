@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>API Data Display</title>
+</head>
+
+<body>
+
+  <!-- 結果を表示するためのtable -->
+  <table id="wordTable">
+    <thead>
+      <tr>
+        <th>日本語</th>
+        <th>現在形</th>
+        <th>過去形</th>
+      </tr>
+    </thead>
+    <tbody id="wordContainer"></tbody>
+  </table>
+
+  <script>
+    // APIのURL
+    const apiUrl = 'https://api.shinahin.com/api?ver=1&type=English';
+
+    // APIからデータを取得する関数
+    async function fetchData() {
+      try {
+        const response = await fetch(apiUrl);
+        const data = await response.json();
+        return data;
+      } catch (error) {
+        console.error('Error fetching data:', error);
+        return null;
+      }
+    }
+
+    // データを取得して処理する関数
+    async function processApiData() {
+      const data = await fetchData();
+      const wordContainer = document.getElementById('wordContainer');
+
+      if (data && wordContainer) {
+        // データをループして表示
+        data.forEach(item => {
+          // trタグを作成
+          const trElement = document.createElement('tr');
+
+          // tdタグを作成して内容を設定
+          const tdJapanese = document.createElement('td');
+          tdJapanese.textContent = item.日本語;
+
+          const tdPresent = document.createElement('td');
+          tdPresent.textContent = item.現在形;
+
+          const tdPast = document.createElement('td');
+          tdPast.textContent = item.過去形;
+
+          // trタグにtdタグを追加
+          trElement.appendChild(tdJapanese);
+          trElement.appendChild(tdPresent);
+          trElement.appendChild(tdPast);
+
+          // tbodyにtrタグを追加
+          wordContainer.appendChild(trElement);
+        });
+      }
+    }
+
+    // 関数を呼び出す
+    processApiData();
+  </script>
+
+</body>
+
+</html>
