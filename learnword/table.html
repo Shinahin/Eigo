@@ -72,6 +72,17 @@
     // 関数を呼び出す
     processApiData();
   </script>
+  <script>
+    function loadAdScript(src) {
+      var script = document.createElement('script');
+      script.src = src;
+      document.body.appendChild(script);
+    }
+
+    // Load ad scripts dynamically
+    loadAdScript("https://adm.shinobi.jp/s/7bf2f531b6a73c1502cd4eb72916106b");
+    loadAdScript("https://adm.shinobi.jp/s/211f28e73be6bc91867b611591980811");
+  </script>
 
 </body>
 
