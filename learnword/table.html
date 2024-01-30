@@ -4,12 +4,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,400;0,500;1,900&family=Noto+Sans+JP&display=swap" rel="stylesheet">
   <style>
     @media (prefers-color-scheme: dark) {
       body {
         background-color: #333631;
         color: #e7e7eb;
       }
+    }
+    html {
+      font-family: 'Jost', sans-serif;
     }
   </style>
   <title>API Data Display</title>
@@ -29,68 +35,59 @@
     <tbody id="wordContainer"></tbody>
   </table>
 
-  <script>
-    // APIのURL
-    const apiUrl = 'https://api.shinahin.com/api?type=English';
+<!-- Your existing HTML code -->
 
-    // APIからデータを取得する関数
-    async function fetchData() {
-      try {
-        const response = await fetch(apiUrl);
-        const data = await response.json();
-        return data;
-      } catch (error) {
-        console.error('Error fetching data:', error);
-        return null;
-      }
+<script>
+  // APIのURL
+  const apiUrl = 'https://api.shinahin.com/api?type=English';
+
+  // APIからデータを取得する関数
+  async function fetchData() {
+    try {
+      const response = await fetch(apiUrl);
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      return null;
     }
+  }
 
-    // データを取得して処理する関数
-    async function processApiData() {
-      const data = await fetchData();
-      const wordContainer = document.getElementById('wordContainer');
+  // データを取得して処理する関数
+  async function processApiData() {
+    const data = await fetchData();
+    const wordContainer = document.getElementById('wordContainer');
 
-      if (data && wordContainer) {
-        // データをループして表示
-        data.forEach(item => {
-          // trタグを作成
-          const trElement = document.createElement('tr');
+    if (data && wordContainer) {
+      // データをループして表示
+      data.forEach(item => {
+        // trタグを作成
+        const trElement = document.createElement('tr');
 
-          // tdタグを作成して内容を設定
-          const tdJapanese = document.createElement('td');
-          tdJapanese.textContent = item.日本語;
+        // tdタグを作成して内容を設定
+        const tdJapanese = document.createElement('td');
+        tdJapanese.textContent = item.日本語;
 
-          const tdPresent = document.createElement('td');
-          tdPresent.textContent = item.現在形;
+        const tdPresent = document.createElement('td');
+        tdPresent.textContent = item.現在形;
 
-          const tdPast = document.createElement('td');
-          tdPast.textContent = item.過去形;
+        const tdPast = document.createElement('td');
+        tdPast.textContent = item.過去形;
 
-          // trタグにtdタグを追加
-          trElement.appendChild(tdJapanese);
-          trElement.appendChild(tdPresent);
-          trElement.appendChild(tdPast);
+        // trタグにtdタグを追加
+        trElement.appendChild(tdJapanese);
+        trElement.appendChild(tdPresent);
+        trElement.appendChild(tdPast);
 
-          // tbodyにtrタグを追加
-          wordContainer.appendChild(trElement);
-        });
-      }
+        // tbodyにtrタグを追加
+        wordContainer.appendChild(trElement);
+      });
     }
+  }
 
-    // 関数を呼び出す
-    processApiData();
-  </script>
-  <script>
-    function loadAdScript(src) {
-      var script = document.createElement('script');
-      script.src = src;
-      document.body.appendChild(script);
-    }
-
-    // Load ad scripts dynamically
-    loadAdScript("https://adm.shinobi.jp/s/7bf2f531b6a73c1502cd4eb72916106b");
-    loadAdScript("https://adm.shinobi.jp/s/211f28e73be6bc91867b611591980811");
-  </script>
+  // 関数を呼び出す
+  document.addEventListener('DOMContentLoaded', processApiData);
+</script>
 
 </body>
 
