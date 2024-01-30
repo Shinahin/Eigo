@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Table Update</title>
+</head>
+
+<body>
+
+    <!-- 既存のテーブルに 'existing-table' クラスが割り当てられていると仮定 -->
+    <table class="existing-table">
+        <!-- 既存のテーブルの内容がここに入る -->
+    </table>
+
+    <!-- APIデータと一致するか確認するボタン -->
+    <button id="checkButton">APIデータと一致するか確認</button>
+    <div class="miss"></div>
+    <script>
+        function clildcontent(metatag, data, tag) {
+            let textbox_element = document.querySelector(metatag);
+            let new_element = document.createElement(tag);
+            new_element.textContent = data;
+            textbox_element.appendChild(new_element);
+        }
+
+        // 既存のテーブルを取得
+        var existingTable = document.querySelector('.existing-table');
+
+        // APIからデータを取得
+        fetch('https://api.shinahin.com/api?type=English')
+            .then(response => response.json())
+            .then(data => {
+                // 100回繰り返す
+                for (var i = 0; i < 100; i++) {
+                    // 行（tr）を作成
+                    var row = document.createElement('tr');
+
+                    // 3つのセル（td）を作成して行に追加
+                    for (var j = 0; j < 4; j++) {
+
+                        // 最初のセルは日本語にする
+                        // 最初のセルは日本語にする
+                        if (j === 0) {
+                            // APIから取得した日本語の単語を表示
+                            var cell = document.createElement('td');
+                            cell.textContent = data[i] ? (data[i]['日本語'] || '') : '';
+                        } else if (j === 1) {
+                            // 2番目のセルにAPIから取得した日本語のデータを表示
+                            var cell2 = document.createElement('td');
+                            cell2.textContent = `${i}行目`;
+                            row.appendChild(cell2);  // Append the new cell to the row
+                        } else {
+                            // 3番目のセルはinput要素に変更
+                            var input = document.createElement('input');
+                            input.type = 'text';
+
+                            cell.appendChild(input);
+                        }
+
+                        row.appendChild(cell);  // Append the first cell to the row
+
+
+                        row.appendChild(cell);
+                    }
+
+                    // 行を既存のテーブルに追加
+                    existingTable.appendChild(row);
+                }
+
+                // APIデータと一致するか確認するボタンのクリックイベント
+                // APIデータと一致するか確認するボタンのクリックイベント
+                var checkButton = document.getElementById('checkButton');
+                checkButton.addEventListener('click', function () {
+                    // すべての行を取得
+                    var rows = existingTable.getElementsByTagName('tr');
+
+                    // 各行に対して検証を行う
+                    for (var i = 0; i < rows.length; i++) {
+                        var cells = rows[i].getElementsByTagName('td');
+
+                        // セルの内容を取得
+                        var presentFormInput = cells[1].querySelector('input');
+                        var pastFormInput = cells[2].querySelector('input');
+
+                        // Add null checks before accessing properties
+                        if (presentFormInput && pastFormInput) {
+                            // APIから取得したデータと一致するかどうかを検証し、コンソールに表示
+                            if (data[i] && presentFormInput.value === data[i]['現在形'] && pastFormInput.value === data[i]['過去形']) {
+                                console.log(`行 ${i + 1}: APIデータと一致しています`);
+                            } else {
+                                console.log(`行 ${i + 1}: APIデータと一致していません`);
+                                clildcontent('.miss', `行: ${i + 1}, 日本語: ${data[i]['日本語']}, 現在形: ${data[i]['現在形']}, 過去形: ${data[i]['過去形']}`, 'p');
+                            }
+                        } else {
+                            console.error(`行 ${i + 1}: セル内にinput要素が見つかりません`);
+                        }
+                    }
+                });
+
+            })
+            .catch(error => console.error('APIからデータを取得できませんでした:', error));
+    </script>
+
+</body>
+
+</html>

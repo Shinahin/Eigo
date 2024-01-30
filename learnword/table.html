@@ -4,6 +4,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    @media (prefers-color-scheme: dark) {
+      body {
+        background-color: #000;
+        color: #fff;
+      }
+    }
+  </style>
   <title>API Data Display</title>
 </head>
 
@@ -23,7 +31,7 @@
 
   <script>
     // APIのURL
-    const apiUrl = 'https://api.shinahin.com/api?ver=1&type=English';
+    const apiUrl = 'https://api.shinahin.com/api?type=English';
 
     // APIからデータを取得する関数
     async function fetchData() {
