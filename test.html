@@ -1,21 +1,165 @@
-<textarea id="text" name="text" placeholder="読み上げたいテキストを入力してください"></textarea>
-<button onclick="readAloud()">読み上げる</button>
+<!DOCTYPE html>
+<html lang="ja">
 
-<script>
-function readAloud() {
-  // テキストを取得
-  const text = document.getElementById("text").value
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Selectタグを取得</title>
+</head>
 
-  // ブラウザにWeb Speech API Speech Synthesis機能があるか判定
-  if ('speechSynthesis' in window) {
-    // 発言を設定
-    const uttr = new SpeechSynthesisUtterance()
-    uttr.text = text
-    // 発言を再生
-    window.speechSynthesis.speak(uttr)
+<body>
+  <!DOCTYPE html>
+  <html lang="ja">
 
-  } else {
-    alert('大変申し訳ありません。このブラウザは音声合成に対応していません。')
-  }
-}
-</script>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,400;0,500;1,900&family=Noto+Sans+JP&display=swap" rel="stylesheet">
+    <style>
+      @media (prefers-color-scheme: dark) {
+        body {
+          background-color: #333631;
+          color: #e7e7eb;
+        }
+      }
+
+      html {
+        font-family: 'Jost', sans-serif;
+      }
+    </style>
+    <title>API responseJson Display</title>
+  </head>
+
+  <body>
+
+    <!-- 結果を表示するためのtable -->
+    <table id="wordTable">
+      <thead>
+        <tr>
+          <th>日本語</th>
+          <th>
+            <select id="mySelect">
+              <option value="現在形" selected>現在形</option>
+              <option value="過去形">過去形</option>
+            </select>
+          </th>
+          <th>過去形</th>
+        </tr>
+      </thead>
+      <tbody id="wordContainer"></tbody>
+    </table>
+
+    <!-- Your existing HTML code -->
+
+    <script>
+      const http = new XMLHttpRequest();
+      const url = 'https://api.shinahin.com/api.php?type=English';
+      const wordContainer = document.getElementById('wordContainer');
+      let responseJson;
+      http.open('GET', url);
+      http.send();
+
+      http.onreadystatechange = (e) => {
+        if (http.readyState === XMLHttpRequest.DONE) {
+          if (http.status === 200) {
+            responseJson = JSON.parse(http.responseText);
+            responseJson.forEach(item => {
+              // trタグを作成
+              const trElement = document.createElement('tr');
+
+              // tdタグを作成して内容を設定
+              const tdJapanese = document.createElement('td');
+              tdJapanese.textContent = item.日本語;
+
+              const tdPresent = document.createElement('td');
+              tdPresent.textContent = item.現在形;
+
+              const tdPast = document.createElement('td');
+              tdPast.textContent = item.過去形;
+
+              // trタグにtdタグを追加
+              trElement.appendChild(tdJapanese);
+              trElement.appendChild(tdPresent);
+              trElement.appendChild(tdPast);
+
+              // tbodyにtrタグを追加
+              wordContainer.appendChild(trElement);
+            });
+          } else {
+            alert('エラーが発生しました。原因は「' + String(http.status) + '」');
+          }
+        }
+      };
+
+      // selectタグを取得
+      let selectElement = document.getElementById('mySelect');
+
+      // 変更があったときのイベントリスナーを追加
+      selectElement.addEventListener('change', function () {
+        if (selectElement.value == '過去形') {
+
+          // wordContainer内のすべての子要素を削除
+          while (wordContainer.firstChild) {
+            wordContainer.removeChild(wordContainer.firstChild);
+          }
+          // データをループして表示
+          responseJson.forEach(item => {
+            // trタグを作成
+            const trElement = document.createElement('tr');
+
+            // tdタグを作成して内容を設定
+            const tdJapanese = document.createElement('td');
+            tdJapanese.textContent = item.日本語;
+
+            const tdPresent = document.createElement('td');
+            tdPresent.textContent = item.過去形;
+
+            const tdPast = document.createElement('td');
+            tdPast.textContent = item.現在形;
+
+            // trタグにtdタグを追加
+            trElement.appendChild(tdJapanese);
+            trElement.appendChild(tdPresent);
+            trElement.appendChild(tdPast);
+
+            // tbodyにtrタグを追加
+            wordContainer.appendChild(trElement);
+          });
+
+        } else if (selectElement.value === '現在形') {
+          while (wordContainer.firstChild) {
+            wordContainer.removeChild(wordContainer.firstChild);
+          }
+          responseJson.forEach(item => {
+            // trタグを作成
+            const trElement = document.createElement('tr');
+
+            // tdタグを作成して内容を設定
+            const tdJapanese = document.createElement('td');
+            tdJapanese.textContent = item.日本語;
+
+            const tdPresent = document.createElement('td');
+            tdPresent.textContent = item.現在形;
+
+            const tdPast = document.createElement('td');
+            tdPast.textContent = item.過去形;
+
+            // trタグにtdタグを追加
+            trElement.appendChild(tdJapanese);
+            trElement.appendChild(tdPresent);
+            trElement.appendChild(tdPast);
+
+            // tbodyにtrタグを追加
+            wordContainer.appendChild(trElement);
+          });
+        } else {
+          console.log(selectElement.value)
+        }
+      });
+    </script>
+
+  </body>
+
+  </html>
