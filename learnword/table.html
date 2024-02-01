@@ -4,91 +4,162 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,400;0,500;1,900&family=Noto+Sans+JP&display=swap" rel="stylesheet">
-  <style>
-    @media (prefers-color-scheme: dark) {
-      body {
-        background-color: #333631;
-        color: #e7e7eb;
-      }
-    }
-    html {
-      font-family: 'Jost', sans-serif;
-    }
-  </style>
-  <title>API Data Display</title>
+  <title>Selectタグを取得</title>
 </head>
 
 <body>
+  <!DOCTYPE html>
+  <html lang="ja">
 
-  <!-- 結果を表示するためのtable -->
-  <table id="wordTable">
-    <thead>
-      <tr>
-        <th>日本語</th>
-        <th>現在形</th>
-        <th>過去形</th>
-      </tr>
-    </thead>
-    <tbody id="wordContainer"></tbody>
-  </table>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,400;0,500;1,900&family=Noto+Sans+JP&display=swap" rel="stylesheet">
+    <style>
+      @media (prefers-color-scheme: dark) {
+        body {
+          background-color: #333631;
+          color: #e7e7eb;
+        }
+      }
 
-<!-- Your existing HTML code -->
+      html {
+        font-family: 'Jost', sans-serif;
+      }
+    </style>
+    <title>API responseJson Display</title>
+  </head>
 
-<script>
-  // APIのURL
-  const apiUrl = 'https://api.shinahin.com/api?type=English';
+  <body>
 
-  // APIからデータを取得する関数
-  async function fetchData() {
-    try {
-      const response = await fetch(apiUrl);
-      const data = await response.json();
-      return data;
-    } catch (error) {
-      console.error('Error fetching data:', error);
-      return null;
-    }
-  }
+    <!-- 結果を表示するためのtable -->
+    <table id="wordTable">
+      <thead>
+        <tr>
+          <th>日本語</th>
+          <th>
+            <select id="mySelect">
+              <option value="現在形" selected>現在形</option>
+              <option value="過去形">過去形</option>
+            </select>
+          </th>
+          <th>過去形</th>
+        </tr>
+      </thead>
+      <tbody id="wordContainer"></tbody>
+    </table>
 
-  // データを取得して処理する関数
-  async function processApiData() {
-    const data = await fetchData();
-    const wordContainer = document.getElementById('wordContainer');
+    <!-- Your existing HTML code -->
 
-    if (data && wordContainer) {
-      // データをループして表示
-      data.forEach(item => {
-        // trタグを作成
-        const trElement = document.createElement('tr');
+    <script>
+      const http = new XMLHttpRequest();
+      const url = 'https://api.shinahin.com/api.php?type=English';
+      const wordContainer = document.getElementById('wordContainer');
+      let responseJson;
+      http.open('GET', url);
+      http.send();
 
-        // tdタグを作成して内容を設定
-        const tdJapanese = document.createElement('td');
-        tdJapanese.textContent = item.日本語;
+      http.onreadystatechange = (e) => {
+        if (http.readyState === XMLHttpRequest.DONE) {
+          if (http.status === 200) {
+            responseJson = JSON.parse(http.responseText);
+            responseJson.forEach(item => {
+              // trタグを作成
+              const trElement = document.createElement('tr');
 
-        const tdPresent = document.createElement('td');
-        tdPresent.textContent = item.現在形;
+              // tdタグを作成して内容を設定
+              const tdJapanese = document.createElement('td');
+              tdJapanese.textContent = item.日本語;
 
-        const tdPast = document.createElement('td');
-        tdPast.textContent = item.過去形;
+              const tdPresent = document.createElement('td');
+              tdPresent.textContent = item.現在形;
 
-        // trタグにtdタグを追加
-        trElement.appendChild(tdJapanese);
-        trElement.appendChild(tdPresent);
-        trElement.appendChild(tdPast);
+              const tdPast = document.createElement('td');
+              tdPast.textContent = item.過去形;
 
-        // tbodyにtrタグを追加
-        wordContainer.appendChild(trElement);
+              // trタグにtdタグを追加
+              trElement.appendChild(tdJapanese);
+              trElement.appendChild(tdPresent);
+              trElement.appendChild(tdPast);
+
+              // tbodyにtrタグを追加
+              wordContainer.appendChild(trElement);
+            });
+          } else {
+            alert('エラーが発生しました。原因は「' + String(http.status) + '」');
+          }
+        }
+      };
+
+      // selectタグを取得
+      let selectElement = document.getElementById('mySelect');
+
+      // 変更があったときのイベントリスナーを追加
+      selectElement.addEventListener('change', function () {
+        if (selectElement.value == '過去形') {
+
+          // wordContainer内のすべての子要素を削除
+          while (wordContainer.firstChild) {
+            wordContainer.removeChild(wordContainer.firstChild);
+          }
+          // データをループして表示
+          responseJson.forEach(item => {
+            // trタグを作成
+            const trElement = document.createElement('tr');
+
+            // tdタグを作成して内容を設定
+            const tdJapanese = document.createElement('td');
+            tdJapanese.textContent = item.日本語;
+
+            const tdPresent = document.createElement('td');
+            tdPresent.textContent = item.過去形;
+
+            const tdPast = document.createElement('td');
+            tdPast.textContent = item.現在形;
+
+            // trタグにtdタグを追加
+            trElement.appendChild(tdJapanese);
+            trElement.appendChild(tdPresent);
+            trElement.appendChild(tdPast);
+
+            // tbodyにtrタグを追加
+            wordContainer.appendChild(trElement);
+          });
+
+        } else if (selectElement.value === '現在形') {
+          while (wordContainer.firstChild) {
+            wordContainer.removeChild(wordContainer.firstChild);
+          }
+          responseJson.forEach(item => {
+            // trタグを作成
+            const trElement = document.createElement('tr');
+
+            // tdタグを作成して内容を設定
+            const tdJapanese = document.createElement('td');
+            tdJapanese.textContent = item.日本語;
+
+            const tdPresent = document.createElement('td');
+            tdPresent.textContent = item.現在形;
+
+            const tdPast = document.createElement('td');
+            tdPast.textContent = item.過去形;
+
+            // trタグにtdタグを追加
+            trElement.appendChild(tdJapanese);
+            trElement.appendChild(tdPresent);
+            trElement.appendChild(tdPast);
+
+            // tbodyにtrタグを追加
+            wordContainer.appendChild(trElement);
+          });
+        } else {
+          console.log(selectElement.value)
+        }
       });
-    }
-  }
+    </script>
 
-  // 関数を呼び出す
-  document.addEventListener('DOMContentLoaded', processApiData);
-</script>
+  </body>
 
-</body>
-
-</html>
+  </html>
